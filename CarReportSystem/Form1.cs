@@ -126,6 +126,11 @@ namespace CarReportSystem
         {
             var test = dataGridView.CurrentRow.Cells[2].Value;
 
+            //データベースへ更新(反映)
+            this.Validate();
+            this.carReportBindingSource.EndEdit();
+            this.tableAdapterManager.UpdateAll(this.infosys202003DataSet);
+
             /*CarReport SelectedCar = CarReport[dataGridView.CurrentRow.Index];
             SelectedCar.CreatedDate = dateTimePicker.Value;
             SelectedCar.Author = comboBoxAuthor.Text;
@@ -244,9 +249,33 @@ namespace CarReportSystem
             return byteData;
         }
 
-        private void setMakerRadioButtonSet(string maker)
+        private void dataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            switch (maker)
+            //選択したレコード(行)の、インデックスで指定した項目を取り出す
+            var maker = dataGridView.CurrentRow.Cells[3].Value;
+            
+            //日付
+
+
+            //記録者
+            comboBoxAuthor.Text = dataGridView.CurrentRow.Cells[2].Value.ToString();
+
+            //メーカー
+
+
+            //車名
+            comboBoxName.Text = dataGridView.CurrentRow.Cells[4].Value.ToString();
+
+            //レポート
+            txReport.Text = dataGridView.CurrentRow.Cells[5].Value.ToString();
+
+            //ラジオボタンの設定
+            setMakerRadioButtonSet((string)maker);
+        }
+
+        private void setMakerRadioButtonSet(string Carmaker)
+        {
+            switch (Carmaker)
             {
                 case "トヨタ":
                     rbToyota.Checked = true;
@@ -269,20 +298,11 @@ namespace CarReportSystem
             }
         }
 
-        private void dataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            //選択したレコード(行)の、インデックスで指定した項目を取り出す
-            var maker = dataGridView.CurrentRow.Cells[3].Value;
-
-            //ラジオボタンの設定
-            setMakerRadioButtonSet((string)maker);
-        }
-
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)  //データグリッドビューの修正
         {
             dataGridView.CurrentRow.Cells[2].Value = comboBoxAuthor.Text;
 
-            //データベース反映
+            //データベースへ更新(反映)
             this.Validate();
             this.carReportBindingSource.EndEdit();
             this.tableAdapterManager.UpdateAll(this.infosys202003DataSet);
