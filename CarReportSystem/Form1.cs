@@ -202,6 +202,10 @@ namespace CarReportSystem
                 }
 
             }
+            //データベースへ更新(反映)
+            this.Validate();
+            this.carReportBindingSource.EndEdit();
+            this.tableAdapterManager.UpdateAll(this.infosys202003DataSet);
         }
 
         private void btEnd_Click(object sender, EventArgs e)
