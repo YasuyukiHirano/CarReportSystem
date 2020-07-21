@@ -249,33 +249,43 @@ namespace CarReportSystem
             return byteData;
         }
 
+        //1レコード選択したときの処理
         private void dataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            //選択したレコード(行)の、インデックスで指定した項目を取り出す
-            var maker = dataGridView.CurrentRow.Cells[3].Value;
-            
-            //日付
+            try
+            {
+                //選択したレコード(行)の、インデックスで指定した項目を取り出す
+                dateTimePicker.Value = (DateTime)dataGridView.CurrentRow.Cells[1].Value;
+                var maker = dataGridView.CurrentRow.Cells[3].Value;
 
+                //記録者
+                comboBoxAuthor.Text = dataGridView.CurrentRow.Cells[2].Value.ToString();
 
-            //記録者
-            comboBoxAuthor.Text = dataGridView.CurrentRow.Cells[2].Value.ToString();
+                //車名
+                comboBoxName.Text = dataGridView.CurrentRow.Cells[4].Value.ToString();
 
-            //メーカー
+                //レポート
+                txReport.Text = dataGridView.CurrentRow.Cells[5].Value.ToString();
 
+                //ラジオボタンの設定
+                setMakerRadioButtonSet((string)maker);
 
-            //車名
-            comboBoxName.Text = dataGridView.CurrentRow.Cells[4].Value.ToString();
-
-            //レポート
-            txReport.Text = dataGridView.CurrentRow.Cells[5].Value.ToString();
-
-            //ラジオボタンの設定
-            setMakerRadioButtonSet((string)maker);
+                //画像
+                pictureBox.Image = ByteArrayToImage((byte[])dataGridView.CurrentRow.Cells[6].Value);
+            }
+            catch (InvalidCastException)
+            {
+                pictureBox.Image = null;
+            }
+            catch(Exception ex)//上記以外のデータを全て拾う
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
-        private void setMakerRadioButtonSet(string Carmaker)
+        private void setMakerRadioButtonSet(string carmaker)
         {
-            switch (Carmaker)
+            switch (carmaker)
             {
                 case "トヨタ":
                     rbToyota.Checked = true;
