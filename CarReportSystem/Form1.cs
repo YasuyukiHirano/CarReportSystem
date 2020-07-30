@@ -131,15 +131,7 @@ namespace CarReportSystem
             this.carReportBindingSource.EndEdit();
             this.tableAdapterManager.UpdateAll(this.infosys202003DataSet);
 
-            /*CarReport SelectedCar = CarReport[dataGridView.CurrentRow.Index];
-            SelectedCar.CreatedDate = dateTimePicker.Value;
-            SelectedCar.Author = comboBoxAuthor.Text;
-            SelectedCar.MaKer = Makers();
-            SelectedCar.Name = comboBoxName.Text;
-            SelectedCar.Report = txReport.Text;
-            SelectedCar.Picture = pictureBox.Image;
-
-            dataGridView.Refresh(); //データグリッドビューの再描画*/
+           
         }
 
 
@@ -315,11 +307,39 @@ namespace CarReportSystem
         private void button1_Click(object sender, EventArgs e)  //データグリッドビューの修正
         {
             dataGridView.CurrentRow.Cells[2].Value = comboBoxAuthor.Text;
+            dataGridView.CurrentRow.Cells[4].Value = comboBoxName.Text;
+            dataGridView.CurrentRow.Cells[5].Value = txReport.Text;
 
             //データベースへ更新(反映)
             this.Validate();
             this.carReportBindingSource.EndEdit();
             this.tableAdapterManager.UpdateAll(this.infosys202003DataSet);
+
+            /*CarReport SelectedCar = CarReport[dataGridView.CurrentRow.Index];
+           SelectedCar.CreatedDate = dateTimePicker.Value;
+           SelectedCar.Author = comboBoxAuthor.Text;
+           SelectedCar.MaKer = Makers();
+           SelectedCar.Name = comboBoxName.Text;
+           SelectedCar.Report = txReport.Text;
+           SelectedCar.Picture = pictureBox.Image;
+
+           dataGridView.Refresh(); //データグリッドビューの再描画*/
+        }
+
+        private void btSeachExe_Click(object sender, EventArgs e)
+        {
+            if (rband.Checked == true)
+            {
+                this.carReportTableAdapter.FillByCarAnd(this.infosys202003DataSet.CarReport, dateTimePicker1.Value.ToString(), tbSearchCarMaker.Text, tbSearchCarName.Text);
+            }
+            else if(rbor.Checked == true)
+            {
+                this.carReportTableAdapter.FillByCaror(this.infosys202003DataSet.CarReport, dateTimePicker1.Value.ToString(), tbSearchCarMaker.Text, tbSearchCarName.Text);
+            }
+            else
+            {
+
+            }
         }
     }
 }
